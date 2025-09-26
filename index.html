@@ -147,7 +147,7 @@ document.querySelectorAll('.consola').forEach(c=>{
 });
 
 // Cargar lista de ROMs desde list.json
-fetch('roms/list.json')
+fetch('list.json')
 .then(r=>r.json())
 .then(roms=>{
   const romSelect=document.getElementById('romSelect');
@@ -181,3 +181,4 @@ console.log("EmulatorJS by https://www.emulatorjs.com");
 
 </body>
 </html>
+
