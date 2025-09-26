@@ -167,7 +167,7 @@ document.getElementById('playBtn').addEventListener('click',()=>{
   document.getElementById('emulator').innerHTML="";
   window.EJS_player="#emulator";
   window.EJS_core=selectedCore;
-  window.EJS_gameUrl=`roms/${romFile}`;
+  window.EJS_gameUrl=`${romFile}`;
   window.EJS_mouse=false;
   window.EJS_multitap=false;
   const script=document.createElement("script");
@@ -181,4 +181,5 @@ console.log("EmulatorJS by https://www.emulatorjs.com");
 
 </body>
 </html>
+
 
