@@ -176,6 +176,13 @@ function isMobile() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
 
+// 📌 Si es móvil, ocultar el div desde el inicio
+if (isMobile()) {
+  document.addEventListener("DOMContentLoaded", () => {
+    document.getElementById("emulator").style.display = "none";
+  });
+}
+
 let selectedCore = null;
 document.querySelectorAll('.consola').forEach(c => {
   c.addEventListener('click', () => {
@@ -207,16 +214,16 @@ document.getElementById('playBtn').addEventListener('click', () => {
   }
 
   if (isMobile()) {
-    // 📱 En móviles → ocultar div y abrir player.html
+    // 📱 En móviles → asegurarse de ocultar el div y abrir player.html
     document.getElementById('emulator').style.display = "none";
     window.open(`player.html?core=${selectedCore}&rom=${encodeURIComponent(romFile)}`, "_blank");
   } else {
-    // 💻 En PC → cargar dentro del div
+    // 💻 En PC → mostrar el div
     document.getElementById('emulator').style.display = "block";
     document.getElementById('emulator').innerHTML = "";
     window.EJS_player = "#emulator";
     window.EJS_core = selectedCore;
-    window.EJS_gameUrl = romFile; // Puede ser base64 o archivo directo
+    window.EJS_gameUrl = romFile; 
     window.EJS_mouse = false;
     window.EJS_multitap = false;
 
@@ -229,7 +236,9 @@ document.getElementById('playBtn').addEventListener('click', () => {
 console.log("EmulatorJS by https://www.emulatorjs.com");
 </script>
 
+
 </body>
 </html>
+
 
 
