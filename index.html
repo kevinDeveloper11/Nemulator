@@ -135,7 +135,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 '-----------------------`;
 console.log(gameBoyArt);
 
-// 📌 LISTA FIJA DE ROMs
+// 📌 Lista fija de ROMs
 const romsList = [
   "Kart Fighter - NES.nes",
   "Legend of Zelda, The - NES.nes",
@@ -171,7 +171,7 @@ const romsList = [
   "The Legend Of Zelda - A Link To The Past - Gameboy Advance.gba",
 ];
 
-// 📌 Detección de móvil
+// 📌 Detectar si es móvil
 function isMobile() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
@@ -206,18 +206,17 @@ document.getElementById('playBtn').addEventListener('click', () => {
     return; 
   }
 
-  // URL del emulador
-  const emulatorUrl = `https://www.emulatorjs.com/loader.html?core=${selectedCore}&rom=${encodeURIComponent(romFile)}`;
-
   if (isMobile()) {
-    // 📱 En móviles → abrir en pestaña nueva
-    window.open(emulatorUrl, "_blank");
+    // 📱 En móviles → ocultar div y abrir player.html
+    document.getElementById('emulator').style.display = "none";
+    window.open(`player.html?core=${selectedCore}&rom=${encodeURIComponent(romFile)}`, "_blank");
   } else {
-    // 💻 En PC → dentro del div
+    // 💻 En PC → cargar dentro del div
+    document.getElementById('emulator').style.display = "block";
     document.getElementById('emulator').innerHTML = "";
     window.EJS_player = "#emulator";
     window.EJS_core = selectedCore;
-    window.EJS_gameUrl = romFile;
+    window.EJS_gameUrl = romFile; // Puede ser base64 o archivo directo
     window.EJS_mouse = false;
     window.EJS_multitap = false;
 
@@ -232,4 +231,5 @@ console.log("EmulatorJS by https://www.emulatorjs.com");
 
 </body>
 </html>
+
 
