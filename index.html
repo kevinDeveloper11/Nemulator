@@ -232,34 +232,45 @@ document.getElementById('playBtn').addEventListener('click', () => {
     document.body.appendChild(script);
   }
 });
-  // 🎵 Lista de archivos de sonido disponibles en la carpeta "sounds/"
+// 🎵 Lista de archivos MP3 en la carpeta "sounds/"
 const soundFiles = [
-  "sounds/track1.mp3",
-  "sounds/track2.mp3",
-  "sounds/music.mp3",
-  "sounds/ambience.mp3",
-  "sounds/chiptune.mp3"
-  // 👆 Asegúrate de reemplazar estos nombres con los reales que tengas en tu carpeta
+  "sounds/01. Birabuto Kingdom.mp3",
+  "sounds/01. Choose Your Pipe.mp3",
+  "sounds/02. Title Screen.mp3",
+  "sounds/03. Athletic.mp3",
+  "sounds/03. Yoshi's Island.mp3",
+  "sounds/04. Wandering the Plains.mp3",
+  "sounds/06. Forest of Illusion.mp3",
+  "sounds/07. Turtle Zone.mp3",
+  "sounds/1 01 Main Theme Overworld.mp3",
+  "sounds/1 02 Underworld.mp3",
+  "sounds/1 03 Underwater.mp3",
+  "sounds/2 01 Title Theme.mp3",
+  "sounds/2 02 Character Select.mp3",
+  "sounds/2 03 Overworld.mp3",
+  "sounds/21. Bonus Chance.mp3",
+  "sounds/3 01 World Map 1 Grass Land .mp3",
+  "sounds/3 11 Underwater.mp3",
+  "sounds/44. End Credits.mp3"
 ];
 
-// Seleccionar aleatoriamente un archivo
+// Seleccionar archivo aleatorio
 const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
 
-// Crear elemento de audio
+// Crear y configurar el reproductor de audio
 const audio = new Audio(randomSound);
-audio.loop = true; // Reproducir en bucle
-audio.volume = 0.5; // Opcional: volumen al 50%
+audio.loop = true;        // Repetir en bucle
+audio.volume = 0.4;       // Volumen al 40% (opcional)
 
-// Reproducir tan pronto como esté listo (y silenciosamente si el navegador lo permite)
+// Intentar reproducir (puede fallar en móviles sin interacción)
 audio.play().catch(e => {
-  console.log("Reproducción automática bloqueada por el navegador (común en móviles).", e);
+  console.warn("Reproducción automática bloqueada por el navegador:", e);
 });
-
-console.log("EmulatorJS by https://www.emulatorjs.com");
 </script>
 
 </body>
 </html>
+
 
 
 
