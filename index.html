@@ -259,25 +259,35 @@ const soundFiles = [
   "sounds/44. End Credits.mp3"
 ];
 
-// Seleccionar archivo aleatorio
-const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
+let backgroundMusic = null;
 
-// Crear y configurar el reproductor de audio (¡en el ámbito global!)
-let backgroundMusic = null; // ← Esta variable será accesible desde el botón PLAY
+// Función para iniciar la música (una sola vez)
+function iniciarMusica() {
+  if (!backgroundMusic) {
+    const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
+    backgroundMusic = new Audio(randomSound);
+    backgroundMusic.loop = true;
+    backgroundMusic.volume = 0.4;
+  }
+  if (backgroundMusic.paused) {
+    backgroundMusic.play().catch(e => console.warn("Reproducción fallida:", e));
+  }
 
-// Solo crear el audio si no se ha creado ya (por si el script se ejecuta varias veces)
-if (!backgroundMusic) {
-  backgroundMusic = new Audio(randomSound);
-  backgroundMusic.loop = true;
-  backgroundMusic.volume = 0.4;
-  backgroundMusic.play().catch(e => {
-    console.warn("Reproducción automática bloqueada por el navegador:", e);
-  });
+  // Remover todos los listeners después de la primera interacción
+  document.removeEventListener('keydown', iniciarMusica);
+  document.removeEventListener('click', iniciarMusica);
+  document.removeEventListener('touchstart', iniciarMusica);
 }
+
+// Escuchar la PRIMERA interacción del usuario (cualquier tecla, clic o toque)
+document.addEventListener('keydown', iniciarMusica);
+document.addEventListener('click', iniciarMusica);
+document.addEventListener('touchstart', iniciarMusica);
 </script>
 
 </body>
 </html>
+
 
 
 
