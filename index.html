@@ -135,7 +135,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 '-----------------------`;
 console.log(gameBoyArt);
 
-// 📌 LISTA FIJA DE ROMs (reemplaza estos nombres por tus archivos reales)
+// 📌 LISTA FIJA DE ROMs
 const romsList = [
   "Kart Fighter - NES.nes",
   "Legend of Zelda, The - NES.nes",
@@ -158,7 +158,7 @@ const romsList = [
   "Super Mario Land 2 DX (Hack v1.8.1).gb",
   "Grand Theft Auto 2 - Gameboy Color.gbc",
   "Legend of Zelda, The - Oracle of Ages - Gameboy Color.gbc",
-  "Legend of Zelda, The - Oracle of Seasons  - Gameboy Color.gbc",
+  "Legend of Zelda, The - Oracle of Seasons  - Gameboy Color.gbc",
   "Mario Tennis - Gameboy Color.gbc",
   "Super Mario Bros. Deluxe - Gameboy Color.gbc",
   "Super Mario Land DX - Gameboy Color.gbc",
@@ -169,8 +169,12 @@ const romsList = [
   "Mario Kart - Super Circuit - Gameboy Advance.gba",
   "Mario vs. Donkey Kong - Gameboy Advance.gba",
   "The Legend Of Zelda - A Link To The Past - Gameboy Advance.gba",
- 
 ];
+
+// 📌 Detección de móvil
+function isMobile() {
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
 
 let selectedCore = null;
 document.querySelectorAll('.consola').forEach(c => {
@@ -181,7 +185,7 @@ document.querySelectorAll('.consola').forEach(c => {
   });
 });
 
-// 📌 Llenar el <select> con la lista fija (sin fetch ni list.json)
+// 📌 Llenar el <select> con la lista fija
 const romSelect = document.getElementById('romSelect');
 romsList.forEach(r => {
   const opt = document.createElement('option');
@@ -190,24 +194,42 @@ romsList.forEach(r => {
   romSelect.appendChild(opt);
 });
 
+// 📌 Botón PLAY
 document.getElementById('playBtn').addEventListener('click', () => {
-  if (!selectedCore) { alert("Selecciona una consola primero"); return; }
+  if (!selectedCore) { 
+    alert("Selecciona una consola primero"); 
+    return; 
+  }
   const romFile = romSelect.value;
-  if (!romFile) { alert("Selecciona una ROM"); return; }
+  if (!romFile) { 
+    alert("Selecciona una ROM"); 
+    return; 
+  }
 
-  document.getElementById('emulator').innerHTML = "";
-  window.EJS_player = "#emulator";
-  window.EJS_core = selectedCore;
-  window.EJS_gameUrl = romFile; // 👈 Acceso DIRECTO al archivo (sin "roms/")
-  window.EJS_mouse = false;
-  window.EJS_multitap = false;
+  // URL del emulador
+  const emulatorUrl = `https://www.emulatorjs.com/loader.html?core=${selectedCore}&rom=${encodeURIComponent(romFile)}`;
 
-  const script = document.createElement("script");
-  script.src = "https://www.emulatorjs.com/loader.js";
-  document.body.appendChild(script);
+  if (isMobile()) {
+    // 📱 En móviles → abrir en pestaña nueva
+    window.open(emulatorUrl, "_blank");
+  } else {
+    // 💻 En PC → dentro del div
+    document.getElementById('emulator').innerHTML = "";
+    window.EJS_player = "#emulator";
+    window.EJS_core = selectedCore;
+    window.EJS_gameUrl = romFile;
+    window.EJS_mouse = false;
+    window.EJS_multitap = false;
+
+    const script = document.createElement("script");
+    script.src = "https://www.emulatorjs.com/loader.js";
+    document.body.appendChild(script);
+  }
 });
 
 console.log("EmulatorJS by https://www.emulatorjs.com");
 </script>
+
 </body>
 </html>
+
