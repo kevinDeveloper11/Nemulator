@@ -101,6 +101,21 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 
 <label for="romSelect">Selecciona tu ROM:</label><br>
 <select id="romSelect"></select><br>
+  <div id="musicPrompt" style="
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(0, 0, 0, 0.7);
+  color: #00ffff;
+  padding: 8px 16px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: 'Press Start 2P', cursive;
+  z-index: 1000;
+  box-shadow: 0 0 10px #ff00ff;
+  display: none;
+">Presiona cualquier tecla para activar la música 🎵</div>
 <button id="playBtn">▶ PLAY</button>
 <div id="emulator"></div>
 <footer>💡Selecciona consola y ROM, y presiona PLAY, espera hasta que la pantalla se ponga gris.</footer>
@@ -202,12 +217,15 @@ romsList.forEach(r => {
 });
 
 // 📌 Botón PLAY
-document.getElementById('playBtn').addEventListener('click', () => {
-  // Detener la música de fondo
-if (backgroundMusic) {
-  backgroundMusic.pause();
-  backgroundMusic.currentTime = 0; // opcional: reiniciar al inicio
-}
+const originalPlayHandler = document.getElementById('playBtn').onclick;
+document.getElementById('playBtn').onclick = null;
+document.getElementById('playBtn').addEventListener('click', (e) => {
+  if (backgroundMusic) {
+    backgroundMusic.pause();
+    backgroundMusic.currentTime = 0;
+  }
+
+  // Comportamiento original del botón PLAY
   if (!selectedCore) { 
     alert("Selecciona una consola primero"); 
     return; 
@@ -217,13 +235,10 @@ if (backgroundMusic) {
     alert("Selecciona una ROM"); 
     return; 
   }
-
   if (isMobile()) {
-    // 📱 En móviles → asegurarse de ocultar el div y abrir player.html
     document.getElementById('emulator').style.display = "none";
     window.open(`player.html?core=${selectedCore}&rom=${encodeURIComponent(romFile)}`, "_blank");
   } else {
-    // 💻 En PC → mostrar el div
     document.getElementById('emulator').style.display = "block";
     document.getElementById('emulator').innerHTML = "";
     window.EJS_player = "#emulator";
@@ -231,12 +246,10 @@ if (backgroundMusic) {
     window.EJS_gameUrl = romFile; 
     window.EJS_mouse = false;
     window.EJS_multitap = false;
-
     const script = document.createElement("script");
     script.src = "https://www.emulatorjs.com/loader.js";
     document.body.appendChild(script);
   }
-});
 // 🎵 Lista de archivos MP3 en la carpeta "sounds/"
 const soundFiles = [
   "sounds/01. Birabuto Kingdom.mp3",
@@ -260,8 +273,14 @@ const soundFiles = [
 ];
 
 let backgroundMusic = null;
+const musicPrompt = document.getElementById('musicPrompt');
 
-// Función para iniciar la música (una sola vez)
+// Mostrar el mensaje al cargar la página
+if (musicPrompt) {
+  musicPrompt.style.display = 'block';
+}
+
+// Función para iniciar la música y ocultar el mensaje
 function iniciarMusica() {
   if (!backgroundMusic) {
     const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
@@ -273,20 +292,27 @@ function iniciarMusica() {
     backgroundMusic.play().catch(e => console.warn("Reproducción fallida:", e));
   }
 
-  // Remover todos los listeners después de la primera interacción
+  // Ocultar mensaje
+  if (musicPrompt) {
+    musicPrompt.style.display = 'none';
+  }
+
+  // Remover listeners después de la primera interacción
   document.removeEventListener('keydown', iniciarMusica);
   document.removeEventListener('click', iniciarMusica);
   document.removeEventListener('touchstart', iniciarMusica);
 }
 
-// Escuchar la PRIMERA interacción del usuario (cualquier tecla, clic o toque)
+// Escuchar primera interacción
 document.addEventListener('keydown', iniciarMusica);
 document.addEventListener('click', iniciarMusica);
 document.addEventListener('touchstart', iniciarMusica);
+
 </script>
 
 </body>
 </html>
+
 
 
 
