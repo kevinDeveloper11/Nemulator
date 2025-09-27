@@ -203,6 +203,11 @@ romsList.forEach(r => {
 
 // 📌 Botón PLAY
 document.getElementById('playBtn').addEventListener('click', () => {
+  // Detener la música de fondo
+if (backgroundMusic) {
+  backgroundMusic.pause();
+  backgroundMusic.currentTime = 0; // opcional: reiniciar al inicio
+}
   if (!selectedCore) { 
     alert("Selecciona una consola primero"); 
     return; 
@@ -273,6 +278,7 @@ if (!backgroundMusic) {
 
 </body>
 </html>
+
 
 
 
