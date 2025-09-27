@@ -257,19 +257,23 @@ const soundFiles = [
 // Seleccionar archivo aleatorio
 const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
 
-// Crear y configurar el reproductor de audio
-const audio = new Audio(randomSound);
-audio.loop = true;        // Repetir en bucle
-audio.volume = 0.4;       // Volumen al 40% (opcional)
+// Crear y configurar el reproductor de audio (¡en el ámbito global!)
+let backgroundMusic = null; // ← Esta variable será accesible desde el botón PLAY
 
-// Intentar reproducir (puede fallar en móviles sin interacción)
-audio.play().catch(e => {
-  console.warn("Reproducción automática bloqueada por el navegador:", e);
-});
+// Solo crear el audio si no se ha creado ya (por si el script se ejecuta varias veces)
+if (!backgroundMusic) {
+  backgroundMusic = new Audio(randomSound);
+  backgroundMusic.loop = true;
+  backgroundMusic.volume = 0.4;
+  backgroundMusic.play().catch(e => {
+    console.warn("Reproducción automática bloqueada por el navegador:", e);
+  });
+}
 </script>
 
 </body>
 </html>
+
 
 
 
