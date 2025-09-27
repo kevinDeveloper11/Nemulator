@@ -232,12 +232,35 @@ document.getElementById('playBtn').addEventListener('click', () => {
     document.body.appendChild(script);
   }
 });
+  // 🎵 Lista de archivos de sonido disponibles en la carpeta "sounds/"
+const soundFiles = [
+  "sounds/track1.mp3",
+  "sounds/track2.mp3",
+  "sounds/music.mp3",
+  "sounds/ambience.mp3",
+  "sounds/chiptune.mp3"
+  // 👆 Asegúrate de reemplazar estos nombres con los reales que tengas en tu carpeta
+];
+
+// Seleccionar aleatoriamente un archivo
+const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
+
+// Crear elemento de audio
+const audio = new Audio(randomSound);
+audio.loop = true; // Reproducir en bucle
+audio.volume = 0.5; // Opcional: volumen al 50%
+
+// Reproducir tan pronto como esté listo (y silenciosamente si el navegador lo permite)
+audio.play().catch(e => {
+  console.log("Reproducción automática bloqueada por el navegador (común en móviles).", e);
+});
 
 console.log("EmulatorJS by https://www.emulatorjs.com");
 </script>
 
 </body>
 </html>
+
 
 
 
