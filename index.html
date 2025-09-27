@@ -250,12 +250,167 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+</script><script>
+// ====================================================================
+// === VARIABLES Y CONSTANTES GLOBALES
+// ====================================================================
+
+// ASCII Art (manteniendo tu toque original)
+const gameBoyArt = `✅Emulador inizializado
+__________________________
+|..OFFo oON             |
+| . ------------------- .  |
+| |  .----------------.  | |
+| |  |                |  | |
+| |))|                |  | |
+| |  |                |  | |
+| |  |                |  | |
+| |  |                |  | |
+| |  |                |  | |
+| |  |                |  | |
+| |  '----------------'  | |
+| |__GAME BOY____________/ |
+|          ________       |
+|    .    (Nintendo)      |
+|  _| |_    """"""""  .-.  |
+|-[_  _]-          (  ) |
+|   |_|            '-'  |
+|    '                 A  |
+|              B        |
+|          ___    ___    |
+|          (___) (___)   |
+|        select start ;:;: |
+|                     ,;:;' /
+|                    ,:;:'.'
+'-----------------------`;
+console.log(gameBoyArt);
+console.log("EmulatorJS by https://www.emulatorjs.com");
+
+let selectedCore = null;
+let romsList = []; 
+const isMobile = () => /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+
+
+// ====================================================================
+// === FUNCIONES DE CARGA ASÍNCRONA (AQUÍ ESTÁ LA MEJORA DEL ERROR)
+// ====================================================================
+
+async function loadRoms(romSelectElement) {
+    try {
+        console.log("Intentando obtener lista de ROMs desde: ./api/roms_list");
+        const response = await fetch('./api/roms_list'); 
+        
+        if (!response.ok) {
+            // Error de conexión (404, 500, etc.)
+            const status = response.status;
+            const statusText = response.statusText;
+            console.error(`❌ ERROR HTTP: ${status} - ${statusText}. La función Serverless falló.`);
+            
+            // Lanzar un error más descriptivo
+            throw new Error(`[${status}] No se pudo obtener la lista de juegos del servidor.`);
+        }
+        
+        romsList = await response.json(); 
+        
+        // Limpiar y agregar opción por defecto
+        romSelectElement.innerHTML = ''; 
+        const defaultOpt = document.createElement('option');
+        defaultOpt.value = "";
+        defaultOpt.textContent = "--- Selecciona un juego ---";
+        romSelectElement.appendChild(defaultOpt);
+
+        // Llenar con la lista dinámica
+        romsList.forEach(r => {
+            const opt = document.createElement('option');
+            opt.value = r; 
+            opt.textContent = r;
+            romSelectElement.appendChild(opt);
+        });
+
+        console.log(`Lista de ROMs cargada exitosamente. Total: ${romsList.length}`);
+
+    } catch (error) {
+        console.error("❌ Fallo crítico en loadRoms:", error);
+        
+        // Mostrar el error directamente en el select para que el usuario lo vea
+        romSelectElement.innerHTML = ''; 
+        const errorOpt = document.createElement('option');
+        errorOpt.textContent = `¡ERROR! ${error.message || "Fallo de red/servidor."}`;
+        romSelectElement.appendChild(errorOpt);
+    }
+}
+
+
+// ====================================================================
+// === LÓGICA DE INICIALIZACIÓN (DOMContentLoaded)
+// ====================================================================
+
+document.addEventListener('DOMContentLoaded', () => {
+    
+    const romSelect = document.getElementById('romSelect');
+    const playBtn = document.getElementById('playBtn');
+    const emulatorDiv = document.getElementById('emulator');
+    const coreElements = document.querySelectorAll('.consola');
+
+    // 1. Cargar las ROMs dinámicamente
+    loadRoms(romSelect);
+
+    // 2. Si es móvil, ocultar el div del emulador desde el inicio
+    if (isMobile()) {
+        emulatorDiv.style.display = "none";
+    }
+
+    // 3. Selección de Core (Consola)
+    coreElements.forEach(c => {
+        c.addEventListener('click', () => {
+            coreElements.forEach(c2 => c2.classList.remove('selected'));
+            c.classList.add('selected');
+            selectedCore = c.dataset.core;
+        });
+    });
+
+    // 4. Botón PLAY (Lógica de inicio del emulador)
+    playBtn.addEventListener('click', () => {
+        if (!selectedCore) { 
+            alert("Selecciona una consola primero"); 
+            return; 
+        }
+        const romFile = romSelect.value;
+        if (!romFile) { 
+            alert("Selecciona una ROM"); 
+            return; 
+        }
+
+        if (isMobile()) {
+            // 📱 En móviles → usar window.open
+            emulatorDiv.style.display = "none";
+            window.open(`player.html?core=${selectedCore}&rom=${encodeURIComponent(romFile)}`, "_blank");
+        } else {
+            // 💻 En PC → mostrar el div y cargar EJS
+            emulatorDiv.style.display = "block";
+            emulatorDiv.innerHTML = ""; // Limpia el contenido anterior
+
+            // Configuración de EJS
+            window.EJS_player = "#emulator";
+            window.EJS_core = selectedCore;
+            window.EJS_gameUrl = romFile; 
+            window.EJS_mouse = false;
+            window.EJS_multitap = false;
+            
+            // Cargar el script del loader de EmulatorJS
+            const script = document.createElement("script");
+            script.src = "https://www.emulatorjs.com/loader.js";
+            document.body.appendChild(script);
+        }
+    });
+});
 </script>
 
 
 
 </body>
 </html>
+
 
 
 
