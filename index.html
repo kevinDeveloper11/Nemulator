@@ -169,14 +169,12 @@ const romsList = [
   "Mario Kart - Super Circuit - Gameboy Advance.gba",
   "Mario vs. Donkey Kong - Gameboy Advance.gba",
   "The Legend Of Zelda - A Link To The Past - Gameboy Advance.gba",
-   "Super Mario 64 DS - Nintendo DS.nds","Super Mario 64 - Nintendo 64.nds"
 ];
 
 // 📌 Detectar si es móvil
 function isMobile() {
   return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
 }
-
 
 // 📌 Si es móvil, ocultar el div desde el inicio
 if (isMobile()) {
@@ -196,18 +194,12 @@ document.querySelectorAll('.consola').forEach(c => {
 
 // 📌 Llenar el <select> con la lista fija
 const romSelect = document.getElementById('romSelect');
-
-// 📌 Cargar ROMs automáticamente desde list.php o list.json
-fetch("list.php") // 👈 cambia a list.json si usas JSON
-  .then(r => r.json())
-  .then(files => {
-    files.forEach(r => {
-      const opt = document.createElement("option");
-      opt.value = r;
-      opt.textContent = r;
-      romSelect.appendChild(opt);
-    });
-  });
+romsList.forEach(r => {
+  const opt = document.createElement('option');
+  opt.value = r;
+  opt.textContent = r;
+  romSelect.appendChild(opt);
+});
 
 // 📌 Botón PLAY
 document.getElementById('playBtn').addEventListener('click', () => {
@@ -245,8 +237,10 @@ console.log("EmulatorJS by https://www.emulatorjs.com");
 </script>
 
 
+
 </body>
 </html>
+
 
 
 
