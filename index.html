@@ -150,166 +150,166 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 '-----------------------`;
 console.log(gameBoyArt);
 
-// 📌 Lista fija de ROMs
-const romsList = [
-  "Kart Fighter - NES.nes",
-  "Legend of Zelda, The - NES.nes",
-  "Mario Bros - NES.nes",
-  "Super Mario 14 - NES.nes",
-  "Super Mario Bros - NES.nes",
-  "Super Mario Bros 2 - NES.nes",
-  "Super Mario Bros. 2 The Lost Levels - NES.nes",
-  "Super Mario Bros. 3 - NES.nes",
-  "Yoshi - NES.nes",
-  "Zelda II - The Adventure of Link - NES.nes",
-  "100 Rooms of Enemies (Arcade Mode).smc",
-  "Super Mario Kart - SNES.smc",
-  "Super Mario World - SNES.smc",
-  "Super Mario World 2 - Yoshi's Island - SNES.smc",
-  "Legend of Zelda, The - Link's Awakening - Gameboy.gb",
-  "Super Mario Land - Gameboy.gb",
-  "Super Mario Land 2 - 6 Golden Coins - Gameboy.gb",
-  "Wario Land - Super Mario Land 3 - Gameboy.gb",
-  "Super Mario Land 2 DX (Hack v1.8.1).gb",
-  "Grand Theft Auto 2 - Gameboy Color.gbc",
-  "Legend of Zelda, The - Oracle of Ages - Gameboy Color.gbc",
-  "Legend of Zelda, The - Oracle of Seasons  - Gameboy Color.gbc",
-  "Mario Tennis - Gameboy Color.gbc",
-  "Super Mario Bros. Deluxe - Gameboy Color.gbc",
-  "Super Mario Land DX - Gameboy Color.gbc",
-  "Wario Land 3 - Gameboy Color.gbc",
-  "Wario Land II - Gameboy Color.gbc",
-  "Advance GTA - Gameboy Advance.gba",
-  "Mario & Luigi - Superstar Saga - Gameboy Advance.gba",
-  "Mario Kart - Super Circuit - Gameboy Advance.gba",
-  "Mario vs. Donkey Kong - Gameboy Advance.gba",
-  "The Legend Of Zelda - A Link To The Past - Gameboy Advance.gba",
-];
+  // 📌 Lista fija de ROMs
+  const romsList = [
+    "Kart Fighter - NES.nes",
+    "Legend of Zelda, The - NES.nes",
+    "Mario Bros - NES.nes",
+    "Super Mario 14 - NES.nes",
+    "Super Mario Bros - NES.nes",
+    "Super Mario Bros 2 - NES.nes",
+    "Super Mario Bros. 2 The Lost Levels - NES.nes",
+    "Super Mario Bros. 3 - NES.nes",
+    "Yoshi - NES.nes",
+    "Zelda II - The Adventure of Link - NES.nes",
+    "100 Rooms of Enemies (Arcade Mode).smc",
+    "Super Mario Kart - SNES.smc",
+    "Super Mario World - SNES.smc",
+    "Super Mario World 2 - Yoshi's Island - SNES.smc",
+    "Legend of Zelda, The - Link's Awakening - Gameboy.gb",
+    "Super Mario Land - Gameboy.gb",
+    "Super Mario Land 2 - 6 Golden Coins - Gameboy.gb",
+    "Wario Land - Super Mario Land 3 - Gameboy.gb",
+    "Super Mario Land 2 DX (Hack v1.8.1).gb",
+    "Grand Theft Auto 2 - Gameboy Color.gbc",
+    "Legend of Zelda, The - Oracle of Ages - Gameboy Color.gbc",
+    "Legend of Zelda, The - Oracle of Seasons  - Gameboy Color.gbc",
+    "Mario Tennis - Gameboy Color.gbc",
+    "Super Mario Bros. Deluxe - Gameboy Color.gbc",
+    "Super Mario Land DX - Gameboy Color.gbc",
+    "Wario Land 3 - Gameboy Color.gbc",
+    "Wario Land II - Gameboy Color.gbc",
+    "Advance GTA - Gameboy Advance.gba",
+    "Mario & Luigi - Superstar Saga - Gameboy Advance.gba",
+    "Mario Kart - Super Circuit - Gameboy Advance.gba",
+    "Mario vs. Donkey Kong - Gameboy Advance.gba",
+    "The Legend Of Zelda - A Link To The Past - Gameboy Advance.gba",
+  ];
 
-// 📌 Detectar si es móvil
-function isMobile() {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-// 📌 Si es móvil, ocultar el div desde el inicio
-if (isMobile()) {
-  document.addEventListener("DOMContentLoaded", () => {
-    document.getElementById("emulator").style.display = "none";
-  });
-}
-
-let selectedCore = null;
-document.querySelectorAll('.consola').forEach(c => {
-  c.addEventListener('click', () => {
-    document.querySelectorAll('.consola').forEach(c2 => c2.classList.remove('selected'));
-    c.classList.add('selected');
-    selectedCore = c.dataset.core;
-  });
-});
-
-// 📌 Llenar el <select> con la lista fija
-const romSelect = document.getElementById('romSelect');
-romsList.forEach(r => {
-  const opt = document.createElement('option');
-  opt.value = r;
-  opt.textContent = r;
-  romSelect.appendChild(opt);
-});
-
-// 📌 Botón PLAY
-const originalPlayHandler = document.getElementById('playBtn').onclick;
-document.getElementById('playBtn').onclick = null;
-document.getElementById('playBtn').addEventListener('click', (e) => {
-  if (backgroundMusic) {
-    backgroundMusic.pause();
-    backgroundMusic.currentTime = 0;
+  // 📌 Detectar si es móvil
+  function isMobile() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
 
-  // Comportamiento original del botón PLAY
-  if (!selectedCore) { 
-    alert("Selecciona una consola primero"); 
-    return; 
-  }
-  const romFile = romSelect.value;
-  if (!romFile) { 
-    alert("Selecciona una ROM"); 
-    return; 
-  }
+  // 📌 Si es móvil, ocultar el div desde el inicio
   if (isMobile()) {
-    document.getElementById('emulator').style.display = "none";
-    window.open(`player.html?core=${selectedCore}&rom=${encodeURIComponent(romFile)}`, "_blank");
-  } else {
-    document.getElementById('emulator').style.display = "block";
-    document.getElementById('emulator').innerHTML = "";
-    window.EJS_player = "#emulator";
-    window.EJS_core = selectedCore;
-    window.EJS_gameUrl = romFile; 
-    window.EJS_mouse = false;
-    window.EJS_multitap = false;
-    const script = document.createElement("script");
-    script.src = "https://www.emulatorjs.com/loader.js";
-    document.body.appendChild(script);
-  }
-// 🎵 Lista de archivos MP3 en la carpeta "sounds/"
-const soundFiles = [
-  "sounds/01. Birabuto Kingdom.mp3",
-  "sounds/01. Choose Your Pipe.mp3",
-  "sounds/02. Title Screen.mp3",
-  "sounds/03. Athletic.mp3",
-  "sounds/03. Yoshi's Island.mp3",
-  "sounds/04. Wandering the Plains.mp3",
-  "sounds/06. Forest of Illusion.mp3",
-  "sounds/07. Turtle Zone.mp3",
-  "sounds/1 01 Main Theme Overworld.mp3",
-  "sounds/1 02 Underworld.mp3",
-  "sounds/1 03 Underwater.mp3",
-  "sounds/2 01 Title Theme.mp3",
-  "sounds/2 02 Character Select.mp3",
-  "sounds/2 03 Overworld.mp3",
-  "sounds/21. Bonus Chance.mp3",
-  "sounds/3 01 World Map 1 Grass Land .mp3",
-  "sounds/3 11 Underwater.mp3",
-  "sounds/44. End Credits.mp3"
-];
-
-let backgroundMusic = null;
-const musicPrompt = document.getElementById('musicPrompt');
-
-// Mostrar el mensaje al cargar la página
-if (musicPrompt) {
-  musicPrompt.style.display = 'block';
-}
-
-// Función para iniciar la música y ocultar el mensaje
-function iniciarMusica() {
-  if (!backgroundMusic) {
-    const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
-    backgroundMusic = new Audio(randomSound);
-    backgroundMusic.loop = true;
-    backgroundMusic.volume = 0.4;
-  }
-  if (backgroundMusic.paused) {
-    backgroundMusic.play().catch(e => console.warn("Reproducción fallida:", e));
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("emulator").style.display = "none";
+    });
   }
 
-  // Ocultar mensaje
+  let selectedCore = null;
+  document.querySelectorAll('.consola').forEach(c => {
+    c.addEventListener('click', () => {
+      document.querySelectorAll('.consola').forEach(c2 => c2.classList.remove('selected'));
+      c.classList.add('selected');
+      selectedCore = c.dataset.core;
+    });
+  });
+
+  // 📌 Llenar el <select> con la lista fija
+  const romSelect = document.getElementById('romSelect');
+  romsList.forEach(r => {
+    const opt = document.createElement('option');
+    opt.value = r;
+    opt.textContent = r;
+    romSelect.appendChild(opt);
+  });
+
+  // 🎵 Lista de archivos MP3 en la carpeta "sounds/"
+  const soundFiles = [
+    "sounds/01. Birabuto Kingdom.mp3",
+    "sounds/01. Choose Your Pipe.mp3",
+    "sounds/02. Title Screen.mp3",
+    "sounds/03. Athletic.mp3",
+    "sounds/03. Yoshi's Island.mp3",
+    "sounds/04. Wandering the Plains.mp3",
+    "sounds/06. Forest of Illusion.mp3",
+    "sounds/07. Turtle Zone.mp3",
+    "sounds/1 01 Main Theme Overworld.mp3",
+    "sounds/1 02 Underworld.mp3",
+    "sounds/1 03 Underwater.mp3",
+    "sounds/2 01 Title Theme.mp3",
+    "sounds/2 02 Character Select.mp3",
+    "sounds/2 03 Overworld.mp3",
+    "sounds/21. Bonus Chance.mp3",
+    "sounds/3 01 World Map 1 Grass Land .mp3",
+    "sounds/3 11 Underwater.mp3",
+    "sounds/44. End Credits.mp3"
+  ];
+
+  let backgroundMusic = null;
+  const musicPrompt = document.getElementById('musicPrompt');
+
+  // Mostrar el mensaje al cargar la página
   if (musicPrompt) {
-    musicPrompt.style.display = 'none';
+    musicPrompt.style.display = 'block';
   }
 
-  // Remover listeners después de la primera interacción
-  document.removeEventListener('keydown', iniciarMusica);
-  document.removeEventListener('click', iniciarMusica);
-  document.removeEventListener('touchstart', iniciarMusica);
-}
+  // Función para iniciar la música y ocultar el mensaje
+  function iniciarMusica() {
+    if (!backgroundMusic) {
+      const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
+      backgroundMusic = new Audio(randomSound);
+      backgroundMusic.loop = true;
+      backgroundMusic.volume = 0.4;
+    }
+    if (backgroundMusic.paused) {
+      backgroundMusic.play().catch(e => console.warn("Reproducción fallida:", e));
+    }
 
-// Escuchar primera interacción
-document.addEventListener('keydown', iniciarMusica);
-document.addEventListener('click', iniciarMusica);
-document.addEventListener('touchstart', iniciarMusica);
+    // Ocultar mensaje
+    if (musicPrompt) {
+      musicPrompt.style.display = 'none';
+    }
 
+    // Remover listeners después de la primera interacción
+    document.removeEventListener('keydown', iniciarMusica);
+    document.removeEventListener('click', iniciarMusica);
+    document.removeEventListener('touchstart', iniciarMusica);
+  }
+
+  // Escuchar primera interacción
+  document.addEventListener('keydown', iniciarMusica);
+  document.addEventListener('click', iniciarMusica);
+  document.addEventListener('touchstart', iniciarMusica);
+
+  // 📌 Botón PLAY (modificado para detener la música)
+  document.getElementById('playBtn').addEventListener('click', () => {
+    // Detener la música de fondo
+    if (backgroundMusic) {
+      backgroundMusic.pause();
+      backgroundMusic.currentTime = 0;
+    }
+
+    if (!selectedCore) { 
+      alert("Selecciona una consola primero"); 
+      return; 
+    }
+    const romFile = romSelect.value;
+    if (!romFile) { 
+      alert("Selecciona una ROM"); 
+      return; 
+    }
+    if (isMobile()) {
+      document.getElementById('emulator').style.display = "none";
+      window.open(`player.html?core=${selectedCore}&rom=${encodeURIComponent(romFile)}`, "_blank");
+    } else {
+      document.getElementById('emulator').style.display = "block";
+      document.getElementById('emulator').innerHTML = "";
+      window.EJS_player = "#emulator";
+      window.EJS_core = selectedCore;
+      window.EJS_gameUrl = romFile; 
+      window.EJS_mouse = false;
+      window.EJS_multitap = false;
+      const script = document.createElement("script");
+      script.src = "https://www.emulatorjs.com/loader.js";
+      document.body.appendChild(script);
+    }
+  });
+
+  console.log("EmulatorJS by https://www.emulatorjs.com");
 </script>
-
 </body>
 </html>
 
