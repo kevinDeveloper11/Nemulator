@@ -252,7 +252,7 @@ console.log(gameBoyArt);
       const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
       backgroundMusic = new Audio(randomSound);
       backgroundMusic.loop = true;
-      backgroundMusic.volume = 0.4;
+      backgroundMusic.volume = 0.7;
     }
     if (backgroundMusic.paused) {
       backgroundMusic.play().catch(e => console.warn("Reproducción fallida:", e));
@@ -312,6 +312,7 @@ console.log(gameBoyArt);
 </script>
 </body>
 </html>
+
 
 
 
