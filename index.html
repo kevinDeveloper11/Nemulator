@@ -326,6 +326,9 @@ footer { margin-top:30px; font-size:10px; color:#888; }
       backgroundMusic.pause();
       backgroundMusic.currentTime = 0;
     }
+           const pauseSound = new Audio("sounds/pause.mp3");
+    pauseSound.volume = 0.8;
+    pauseSound.play().catch(e => console.warn("No se pudo reproducir pause.mp3:", e));
 
     if (!selectedCore) { 
       alert("Selecciona una consola primero"); 
@@ -358,6 +361,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 
 </body>
 </html>
+
 
 
 
