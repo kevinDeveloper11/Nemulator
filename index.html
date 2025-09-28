@@ -149,7 +149,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 |                    ,;:;' /
 |                   ,:;:'.'
 '-----------------------`;
-console.log(gameBoyArt);
+  console.log(gameBoyArt);
 
   // 📌 Lista fija de ROMs
   const romsList = [
@@ -240,14 +240,36 @@ console.log(gameBoyArt);
   ];
 
   let backgroundMusic = null;
-  const musicPrompt = document.getElementById('musicPrompt');
 
-  // Mostrar el mensaje al cargar la página
-  if (musicPrompt) {
-    musicPrompt.style.display = 'block';
-  }
+  // 📢 Overlay de actualizaciones
+  window.addEventListener("load", () => {
+    const overlay = document.createElement("div");
+    overlay.id = "updateOverlay";
+    overlay.innerHTML = `
+      <div id="updateBox">
+        <h2>📢 Actualizaciones</h2>
+        <ul id="updateList">
+          <li>✔ Nuevo soporte para Game Boy Advance</li>
+          <li>✔ Correcciones de compatibilidad con SNES</li>
+          <li>✔ Interfaz mejorada con tema arcade</li>
+          <li>✔ Ahora se detectan ROMs automáticamente</li>
+        </ul>
+        <button id="updateOk">OK</button>
+      </div>
+    `;
+    document.body.appendChild(overlay);
 
-  // Función para iniciar la música y ocultar el mensaje
+    // Inicia la música al mostrar el overlay
+    iniciarMusica();
+
+    document.getElementById("updateOk").addEventListener("click", () => {
+      overlay.style.display = "none";
+      // Si quieres que se pare al cerrar:
+      // if (backgroundMusic) backgroundMusic.pause();
+    });
+  });
+
+  // Función para iniciar la música
   function iniciarMusica() {
     if (!backgroundMusic) {
       const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
@@ -258,26 +280,10 @@ console.log(gameBoyArt);
     if (backgroundMusic.paused) {
       backgroundMusic.play().catch(e => console.warn("Reproducción fallida:", e));
     }
-
-    // Ocultar mensaje
-    if (musicPrompt) {
-      musicPrompt.style.display = 'none';
-    }
-
-    // Remover listeners después de la primera interacción
-    document.removeEventListener('keydown', iniciarMusica);
-    document.removeEventListener('click', iniciarMusica);
-    document.removeEventListener('touchstart', iniciarMusica);
   }
 
-  // Escuchar primera interacción
-  document.addEventListener('keydown', iniciarMusica);
-  document.addEventListener('click', iniciarMusica);
-  document.addEventListener('touchstart', iniciarMusica);
-
-  // 📌 Botón PLAY (modificado para detener la música)
+  // 📌 Botón PLAY (detiene la música al jugar)
   document.getElementById('playBtn').addEventListener('click', () => {
-    // Detener la música de fondo
     if (backgroundMusic) {
       backgroundMusic.pause();
       backgroundMusic.currentTime = 0;
@@ -311,8 +317,10 @@ console.log(gameBoyArt);
 
   console.log("EmulatorJS by https://www.emulatorjs.com");
 </script>
+
 </body>
 </html>
+
 
 
 
