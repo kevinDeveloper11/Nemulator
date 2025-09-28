@@ -120,7 +120,6 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 <button id="playBtn">▶ PLAY</button>
 <div id="emulator"></div>
 <footer>💡Selecciona consola y ROM, y presiona PLAY, espera hasta que la pantalla se ponga gris.</footer>
-
 <script>
   const gameBoyArt = `✅Emulador inizializado
  __________________________
@@ -192,7 +191,6 @@ footer { margin-top:30px; font-size:10px; color:#888; }
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
   }
 
-  // 📌 Si es móvil, ocultar el div desde el inicio
   if (isMobile()) {
     document.addEventListener("DOMContentLoaded", () => {
       document.getElementById("emulator").style.display = "none";
@@ -208,7 +206,6 @@ footer { margin-top:30px; font-size:10px; color:#888; }
     });
   });
 
-  // 📌 Llenar el <select> con la lista fija
   const romSelect = document.getElementById('romSelect');
   romsList.forEach(r => {
     const opt = document.createElement('option');
@@ -217,7 +214,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
     romSelect.appendChild(opt);
   });
 
-  // 🎵 Lista de archivos MP3 en la carpeta "sounds/"
+  // 🎵 Lista de música
   const soundFiles = [
     "sounds/01. Birabuto Kingdom.mp3",
     "sounds/01. Choose Your Pipe.mp3",
@@ -241,7 +238,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 
   let backgroundMusic = null;
 
-  // 📢 Overlay de actualizaciones
+  // 📢 Overlay de actualizaciones que tapa toda la pantalla
   window.addEventListener("load", () => {
     const overlay = document.createElement("div");
     overlay.id = "updateOverlay";
@@ -259,17 +256,13 @@ footer { margin-top:30px; font-size:10px; color:#888; }
     `;
     document.body.appendChild(overlay);
 
-    // Inicia la música al mostrar el overlay
-    iniciarMusica();
-
     document.getElementById("updateOk").addEventListener("click", () => {
       overlay.style.display = "none";
-      // Si quieres que se pare al cerrar:
-      // if (backgroundMusic) backgroundMusic.pause();
+      iniciarMusica(); // 👉 la música empieza al dar OK
     });
   });
 
-  // Función para iniciar la música
+  // 🎶 Función para iniciar música
   function iniciarMusica() {
     if (!backgroundMusic) {
       const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
@@ -282,7 +275,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
     }
   }
 
-  // 📌 Botón PLAY (detiene la música al jugar)
+  // 📌 Botón PLAY (detiene música al entrar al juego)
   document.getElementById('playBtn').addEventListener('click', () => {
     if (backgroundMusic) {
       backgroundMusic.pause();
@@ -318,8 +311,57 @@ footer { margin-top:30px; font-size:10px; color:#888; }
   console.log("EmulatorJS by https://www.emulatorjs.com");
 </script>
 
+<style>
+#updateOverlay {
+  position: fixed;
+  top:0; left:0;
+  width:100%; height:100%;
+  background: rgba(0,0,0,0.95);
+  color:white;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  z-index: 9999;
+}
+#updateBox {
+  background:#1a1a2e;
+  border:3px solid #ff00ff;
+  border-radius:16px;
+  padding:20px;
+  width:90%;
+  max-width:500px;
+  text-align:center;
+  box-shadow:0 0 20px #00ffff,0 0 40px #ff00ff;
+}
+#updateBox h2 {
+  color:#ff00ff;
+  margin-bottom:15px;
+}
+#updateBox ul {
+  text-align:left;
+  font-size:12px;
+  margin-bottom:20px;
+}
+#updateOk {
+  font-family:inherit;
+  background:linear-gradient(90deg,#ff00ff,#00ffff);
+  border:none;
+  padding:10px 20px;
+  font-size:14px;
+  cursor:pointer;
+  border-radius:12px;
+  color:#111;
+  font-weight:bold;
+}
+#updateOk:hover {
+  transform:scale(1.05);
+  box-shadow:0 0 20px #ff00ff,0 0 40px #00ffff;
+}
+</style>
+
 </body>
 </html>
+
 
 
 
