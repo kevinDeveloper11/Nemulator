@@ -309,7 +309,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
           <li>✔ Aun no se a podido funcionar la n64</li>
           <li>✔ sistema de sonido de fondo</li>
           <li>✔ Interfaz mejorada con tema arcade</li>
-          <li>✔ pronto agregar roms de pokemon</li>
+          <li>✔ nuevas roms de pokemon</li>
         </ul>
         <button id="updateOk">OK</button>
       </div>
@@ -328,7 +328,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
       const randomSound = soundFiles[Math.floor(Math.random() * soundFiles.length)];
       backgroundMusic = new Audio(randomSound);
       backgroundMusic.loop = true;
-      backgroundMusic.volume = 0.7;
+      backgroundMusic.volume = 0.5;
     }
     if (backgroundMusic.paused) {
       backgroundMusic.play().catch(e => console.warn("Reproducción fallida:", e));
@@ -376,6 +376,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 
 </body>
 </html>
+
 
 
 
