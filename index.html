@@ -162,9 +162,9 @@ footer { margin-top:30px; font-size:10px; color:#888; }
   box-shadow: 0 0 10px #ff00ff;
   display: none;
 ">Presiona cualquier tecla para activar la música 🎵</div-->
-<button id="playBtn">▶ PLAY</button>
+<button id="playBtn">▶ JUGAR</button>
 <div id="emulator"></div>
-<footer>💡Selecciona consola y ROM, y presiona PLAY, espera hasta que la pantalla se ponga gris.</footer>
+<footer>💡Selecciona consola y ROM, y presiona JUGAR.</footer>
 <script>
   const gameBoyArt = `✅Emulador inizializado
  __________________________
@@ -196,40 +196,55 @@ footer { margin-top:30px; font-size:10px; color:#888; }
   console.log(gameBoyArt);
 
   // 📌 Lista fija de ROMs
-  const romsList = [
-    "Kart Fighter - NES.nes",
-    "Legend of Zelda, The - NES.nes",
-    "Mario Bros - NES.nes",
-    "Super Mario 14 - NES.nes",
-    "Super Mario Bros - NES.nes",
-    "Super Mario Bros 2 - NES.nes",
-    "Super Mario Bros. 2 The Lost Levels - NES.nes",
-    "Super Mario Bros. 3 - NES.nes",
-    "Yoshi - NES.nes",
-    "Zelda II - The Adventure of Link - NES.nes",
-    "100 Rooms of Enemies (Arcade Mode).smc",
-    "Super Mario Kart - SNES.smc",
-    "Super Mario World - SNES.smc",
-    "Super Mario World 2 - Yoshi's Island - SNES.smc",
-    "Legend of Zelda, The - Link's Awakening - Gameboy.gb",
-    "Super Mario Land - Gameboy.gb",
-    "Super Mario Land 2 - 6 Golden Coins - Gameboy.gb",
-    "Wario Land - Super Mario Land 3 - Gameboy.gb",
-    "Super Mario Land 2 DX (Hack v1.8.1).gb",
-    "Grand Theft Auto 2 - Gameboy Color.gbc",
-    "Legend of Zelda, The - Oracle of Ages - Gameboy Color.gbc",
-    "Legend of Zelda, The - Oracle of Seasons  - Gameboy Color.gbc",
-    "Mario Tennis - Gameboy Color.gbc",
-    "Super Mario Bros. Deluxe - Gameboy Color.gbc",
-    "Super Mario Land DX - Gameboy Color.gbc",
-    "Wario Land 3 - Gameboy Color.gbc",
-    "Wario Land II - Gameboy Color.gbc",
-    "Advance GTA - Gameboy Advance.gba",
-    "Mario & Luigi - Superstar Saga - Gameboy Advance.gba",
-    "Mario Kart - Super Circuit - Gameboy Advance.gba",
-    "Mario vs. Donkey Kong - Gameboy Advance.gba",
-    "The Legend Of Zelda - A Link To The Past - Gameboy Advance.gba",
-  ];
+  const romsList =[
+  "Kart Fighter - NES.nes",
+  "Legend of Zelda, The - NES.nes",
+  "Mario Bros - NES.nes",
+  "Super Mario 14 - NES.nes",
+  "Super Mario Bros - NES.nes",
+  "Super Mario Bros 2 - NES.nes",
+  "Super Mario Bros. 2 The Lost Levels - NES.nes",
+  "Super Mario Bros. 3 - NES.nes",
+  "Yoshi - NES.nes",
+  "Zelda II - The Adventure of Link - NES.nes",
+  "100 Rooms of Enemies (Arcade Mode).smc",
+  "Super Mario Kart - SNES.smc",
+  "Super Mario World - SNES.smc",
+  "Super Mario World 2 - Yoshi's Island - SNES.smc",
+  "Legend of Zelda, The - Link's Awakening - Gameboy.gb",
+  "Pokemon - Blue Version (USA, Europe) (SGB Enhanced).gb",
+  "Pokemon - Yellow Version - Special Pikachu Edition (USA, Europe) (GBC,SGB Enhanced).gb",
+  "Super Mario Land - Gameboy.gb",
+  "Super Mario Land 2 - 6 Golden Coins - Gameboy.gb",
+  "Super Mario Land 2 DX (Hack v1.8.1).gb",
+  "Wario Land - Super Mario Land 3 - Gameboy.gb",
+  "Grand Theft Auto 2 - Gameboy Color.gbc",
+  "Legend of Zelda, The - Oracle of Ages - Gameboy Color.gbc",
+  "Legend of Zelda, The - Oracle of Seasons - Gameboy Color.gbc",
+  "Mario Tennis - Gameboy Color.gbc",
+  "Pokemon - Crystal Version (USA, Europe) (Rev 1).gbc",
+  "Pokemon - Gold Version (USA, Europe) (SGB Enhanced) (GB Compatible).gbc",
+  "Pokemon - Silver Version (USA, Europe) (SGB Enhanced) (GB Compatible).gbc",
+  "Pokemon - Yellow Version (UE) [C][!].gbc",
+  "Pokemon Diamond (U) [p1][C][!].gbc",
+  "Pokemon Epic Gold (Final) (Gold Hack).gbc",
+  "Pokemon Prism 2012 (Beta) (Gold Hack).gbc",
+  "Super Mario Bros. Deluxe - Gameboy Color.gbc",
+  "Super Mario Land DX - Gameboy Color.gbc",
+  "Wario Land 3 - Gameboy Color.gbc",
+  "Wario Land II - Gameboy Color.gbc",
+  "Advance GTA - Gameboy Advance.gba",
+  "Mario & Luigi - Superstar Saga - Gameboy Advance.gba",
+  "Mario Kart - Super Circuit - Gameboy Advance.gba",
+  "Mario vs. Donkey Kong - Gameboy Advance.gba",
+  "The Legend Of Zelda - A Link To The Past - Gameboy Advance.gba",
+  "Super Mario 64 - Nintendo 64.z64",
+  "Super Smash Bros. - Nintendo 64.z64",
+  "Super Mario 64 DS - Nintendo DS.nds",
+  "Super Mario Bros Crossover 1.2.03.swf",
+  "Super Mario Bros Crossover 2.1.11.swf",
+  "Super Mario Bros. Crossover 3.1.21.swf"
+]
 
   // 📌 Detectar si es móvil
   function isMobile() {
@@ -361,6 +376,7 @@ footer { margin-top:30px; font-size:10px; color:#888; }
 
 </body>
 </html>
+
 
 
 
